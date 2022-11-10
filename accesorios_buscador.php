@@ -23,7 +23,7 @@
 
     <header>
         <figure>
-            <h1>Fantasia a tu alcance</h1>
+            <h1>Redes, Arquitectura y comunicaciones</h1>
             <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Ruby-Diamond-88757.gif" alt="Rubi imagen" style="max-width:100px">
         </figure>
     </header>
