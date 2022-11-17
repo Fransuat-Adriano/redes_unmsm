@@ -2,10 +2,11 @@
     require_once('coneccion.php');
 
     $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
-    $txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
+    $txtTitulo=(isset($_POST['txtTitulo']))?$_POST['txtTitulo']:"";
+    $txtAutor=(isset($_POST['txtAutor']))?$_POST['txtAutor']:"";
+    $txtPaginas=(isset($_POST['txtPaginas']))?$_POST['txtPaginas']:"";
     $txtDescripcion=(isset($_POST['txtDescripcion']))?$_POST['txtDescripcion']:"";
     $txtPrecio=(isset($_POST['txtPrecio']))?$_POST['txtPrecio']:"";
-    $txtImagen=(isset($_FILES['txtImagen']['name']))?$_FILES['txtImagen']['name']:"";
     $accion=(isset($_POST['accion']))?$_POST['accion']:"";
 
 
@@ -13,64 +14,27 @@
         case "Agregar":
 
             //INSERT INTO `joyas` (`id`, `nombre`, `descripcion`, `imagen`) VALUES (NULL, 'collar 1', 'un hermoso collar para lucirlo en tu cuello', 'imagen.jpg'); 
-            $statement=$pdo->prepare("INSERT INTO productos (nombre, descripcion, precio, imagen) VALUES (:nombre, :descripcion, :precio, :imagen);");
-            $statement->bindParam(':nombre',$txtNombre);
+            $statement=$pdo->prepare("INSERT INTO libros (titulo, autor, paginas, descripcion, precio) VALUES (:titulo, :autor, :paginas, :descripcion, :precio;");
+            $statement->bindParam(':titulo',$txtTitulo);
+            $statement->bindParam(':autor',$txtAutor);
+            $statement->bindParam(':paginas',$txtPaginas);
             $statement->bindParam(':descripcion',$txtDescripcion);
             $statement->bindParam(':precio',$txtPrecio);
-           
-
-            $fecha=new DateTime();
-            $nombreArchivo=($txtImagen !=" ")?$fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"]:"imagen.jpg";
-
-            $tmpImagen=$_FILES["txtImagen"]["tmp_name"];
-
-            if($tmpImagen !=" "){
-                move_uploaded_file($tmpImagen,"img/".$nombreArchivo);
-            }
-
-            $statement->bindParam(':imagen',$nombreArchivo);
+            
             $statement->execute();
-
             header("Location:insertar.php");
             break;
 
         case "Modificar":
-            $statement=$pdo->prepare("UPDATE productos SET nombre=:nombre, descripcion=:descripcion, precio=:precio WHERE id=:id");
-            $statement->bindParam(':nombre',$txtNombre);
+            $statement=$pdo->prepare("UPDATE libros SET titulo=:titulo, autor=:autor, paginas=:paginas, descripcion=:descripcion, precio=:precio WHERE id=:id");
+            $statement->bindParam(':titulo',$txtTitulo);
+            $statement->bindParam(':autor',$txtAutor);
+            $statement->bindParam(':paginas',$txtPaginas);
             $statement->bindParam(':descripcion',$txtDescripcion);
             $statement->bindParam(':precio',$txtPrecio);
         
             $statement->bindParam(':id',$txtID);
             $statement->execute();
-
-            if($txtImagen !=" "){
-
-                $fecha=new DateTime();
-                $nombreArchivo=($txtImagen !=" ") ? $fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"]:"imagen.jpg";
-                $tmpImagen=$_FILES["txtImagen"]["tmp_name"];
-
-                move_uploaded_file($tmpImagen,"img/".$nombreArchivo);
-
-                $statement=$pdo->prepare("SELECT imagen FROM productos WHERE id=:id");
-                $statement->bindParam(':id',$txtID);
-                $statement->execute();
-                $joya=$statement->fetch();
-
-                if(isset($joya["imagen"]) && ($joya["imagen"] !="imagen.jpg")){
-
-                    if(file_exists("img/".$joya["imagen"])){
-
-                        unlink("img/".$joya["imagen"]);
-                    
-                    }
-
-                }
-
-                $statement=$pdo->prepare("UPDATE productos SET imagen=:imagen WHERE id=:id");
-                $statement->bindParam(':imagen',$nombreArchivo);
-                $statement->bindParam(':id',$txtID);
-                $statement->execute();
-            }
 
             header("Location:insertar.php");
             break;
@@ -80,35 +44,21 @@
                 break;
 
         case "Seleccionar":
-            $statement=$pdo->prepare("SELECT * FROM productos WHERE id=:id");
+            $statement=$pdo->prepare("SELECT * FROM libros WHERE id=:id");
             $statement->bindParam(':id',$txtID);
             $statement->execute();
             $joya=$statement->fetch();
 
-            $txtNombre=$joya['nombre'];
-            $txtImagen=$joya['imagen'];
+            $txtTitulo=$joya['titulo'];
+            $txtAutor=$joya['autor'];
+            $txtPaginas=$joya['paginas'];
             $txtDescripcion=$joya['descripcion'];
             $txtPrecio=$joya['precio'];
 
             break;
 
         case "Borrar":
-
-            $statement=$pdo->prepare("SELECT imagen FROM productos WHERE id=:id");
-            $statement->bindParam(':id',$txtID);
-            $statement->execute();
-            $joya=$statement->fetch();
-
-            if(isset($joya["imagen"]) &&($joya["imagen"] !="imagen.jpg")){
-
-                if(file_exists("img/".$joya["imagen"])){
-
-                    unlink("img/".$joya["imagen"]);
-                }
-
-            }
-
-            $statement=$pdo->prepare("DELETE FROM  productos WHERE id=:id");
+            $statement=$pdo->prepare("DELETE FROM  libros WHERE id=:id");
             $statement->bindParam(':id',$txtID);
             $statement->execute();
 
@@ -117,7 +67,7 @@
             break;
     }
 
-    $statement=$pdo->prepare("SELECT * FROM productos");
+    $statement=$pdo->prepare("SELECT * FROM libros");
     $statement->execute();
     $listaJoyas=$statement->fetchAll();
 
@@ -130,7 +80,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP & SQL</title>
+    <title>Redes,Arquitectura y comunicaciones</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/estilos.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Tangerine&display=swap" rel="stylesheet">
@@ -140,10 +90,9 @@
 
     <nav>   
         <div>
-            <a href="javascript:history.go(-1)"> Administrador</a>
-            <a href="insertar.php" style="color:#FF0000" >Administrar productos</a>
-            <a href="mostrar_productos.php">Ver sitio web</a> 
-            <a href="cerrar.php">Cerrar</a>
+            <a href="index.html">Inicio</a>
+            <a href="accesorios_buscador.php">Productos</a> 
+            <a href="insertar.php" style="color:#FF0000" >insertar</a>
             
         </div>
     </nav>
@@ -165,35 +114,31 @@
             <input type="text" required readonly class="form-control" value="<?php  echo $txtID; ?>" name="txtID" id="txtID" placeholder="ID">
             </div>
 
-            <div class = "form-group">
-            <label for="txtNombre">Nombre:</label>
-            <input type="text" required class="form-control" value="<?php  echo $txtNombre; ?>" name="txtNombre" id="txtNombre" placeholder="Nombre de la joya">
+            <div>
+            <label for="txtTitulo">Titulo:</label>
+            <input type="text" required class="form-control" value="<?php  echo $txtTitulo; ?>" name="txtTitulo" id="txtTitulo" placeholder="Titulo del libro">
             </div>
 
-            <div class = "form-group">
-            <label for="txtNombre">Descripcion:</label>
-            <input type="text" required class="form-control"  value="<?php  echo $txtDescripcion; ?>" name="txtDescripcion" id="txtDescripcion" placeholder="Descripcion de la joya">
+            <div>
+            <label for="txtAutor">Autor:</label>
+            <input type="text" required class="form-control" value="<?php  echo $txtAutor; ?>" name="txtAutor" id="txtAutor" placeholder="Nombre del autor">
             </div>
-
-            
-
-            <div class = "form-group">
-            <label for="txtNombre">Imagen:</label>
-
             <br>
 
-            <?php  if($txtImagen !=" "){  ?>
+            <div>
+            <label for="txtPaginas">Numero de Paginas:</label>
+            <input type="text" required class="form-control" value="<?php  echo $txtPaginas; ?>" name="txtPaginas" id="txtPaginas" placeholder="Numero de paginas que tiene el libro">
+            </div>
+            <br>
 
-                <img class="img-thumbnail rounded" src="img/<?php  echo $txtImagen;?>" width="200" alt="">
-            
-            <?php } ?>
-
-            <input type="file" class="form-control" name="txtImagen" id="txtImagen" placeholder="Nombre">
+            <div class = "form-group">
+            <label for="txtDescripcion">Descripcion:</label>
+            <input type="text" required class="form-control"  value="<?php  echo $txtDescripcion; ?>" name="txtDescripcion" id="txtDescripcion" placeholder="Descripcion del libro">
             </div>
 
             <div>
             <label for="txtPrecio">Precio:</label>
-            <input type="text" required class="form-control" value="<?php  echo $txtPrecio; ?>" name="txtPrecio" id="txtPrecio" placeholder="Indicar el precio del producto">
+            <input type="text" required class="form-control" value="<?php  echo $txtPrecio; ?>" name="txtPrecio" id="txtPrecio" placeholder="Indicar el precio del libro">
             </div>
             <br>
 
@@ -217,24 +162,23 @@
     <table>
         <thead>
             <tr>
-                <th>Nombre</th>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Paginas</th>
                 <th>Descripcion</th>
-                <th>Imagenes</th>
-                <th>Acciones</th>
                 <th>Precio</th>
+                <th>Accion</th>
             </tr>
         </thead>
         <tbody>
             <?php  foreach($listaJoyas as $joyas) { ?>
             <tr>
                
-                <td><?php  echo $joyas['nombre'] ?></td>
+                <td><?php  echo $joyas['titulo'] ?></td>
+                <td><?php  echo $joyas['autor'] ?></td>
+                <td><?php  echo $joyas['paginas'] ?></td>
                 <td><?php  echo $joyas['descripcion'] ?></td>
-                <td>
-                    
-                    <img class="img-thumbnail rounded" src="img/<?php  echo $joyas['imagen'] ?>" width="150" alt="">
-                    
-                </td>
+                <td>S./<?php  echo $joyas['precio'] ?></td>
                 <td>
                     <form  method="post">
                         
@@ -244,7 +188,6 @@
                     
                     </form>
                 </td>
-                <td>S./<?php  echo $joyas['precio'] ?></td>
             </tr>
             <?php } ?>
         </tbody>
