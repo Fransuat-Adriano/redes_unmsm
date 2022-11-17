@@ -1,6 +1,6 @@
 <?php
 
-    $dsn = 'mysql:dbname=joyafinal;host=127.0.0.1';
+    $dsn = 'mysql:dbname=redes;host=127.0.0.1';
     $user = 'root';
     $password = '';
 
