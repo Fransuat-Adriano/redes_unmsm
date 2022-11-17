@@ -25,7 +25,7 @@
     <header>
         <figure>
             <h1>Redes, Arquitectura y comunicaciones</h1>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Ruby-Diamond-88757.gif" alt="Rubi imagen" style="max-width:100px">
+            <img src="https://gifs.eco.br/wp-content/uploads/2022/02/gifs-do-gatinho-digitando-2.gif" alt="Rubi imagen" style="max-width:400px">
         </figure>
     </header>
     <nav>

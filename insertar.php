@@ -87,6 +87,10 @@
 
 </head>
 <body class=".main-bg">
+        <figure>
+        <img src="https://gifs.eco.br/wp-content/uploads/2022/02/gifs-do-gatinho-digitando-2.gif" alt="michi" style="max-width:400px">
+    </figure>
+
 
     <nav>   
         <div>
@@ -95,6 +99,7 @@
             <a href="insertar.php" style="color:#FF0000" >insertar</a>
             
         </div>
+
     </nav>
     
     <div class="col-md-8">
