@@ -14,7 +14,7 @@
         case "Agregar":
 
             //INSERT INTO `joyas` (`id`, `nombre`, `descripcion`, `imagen`) VALUES (NULL, 'collar 1', 'un hermoso collar para lucirlo en tu cuello', 'imagen.jpg'); 
-            $statement=$pdo->prepare("INSERT INTO libros (titulo, autor, paginas, descripcion, precio) VALUES (:titulo, :autor, :paginas, :descripcion, :precio;");
+            $statement=$pdo->prepare("INSERT INTO libros (titulo, autor, paginas, descripcion, precio) VALUES (:titulo, :autor, :paginas, :descripcion, :precio);");
             $statement->bindParam(':titulo',$txtTitulo);
             $statement->bindParam(':autor',$txtAutor);
             $statement->bindParam(':paginas',$txtPaginas);

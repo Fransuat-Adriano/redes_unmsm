@@ -170,10 +170,11 @@ body {
 
 /* Backgrounds */
 
+/*Color de fondo */
 .main-bg {
 
-    background: #aa5f5f;
-    background: linear-gradient( #ebe3d8, #e89338, #ebe3d8);/* DA EFECTO ROJO NEGRO*/
+    background: #d0597f;
+    background: linear-gradient( #d8ebdd, #01ec28, #1e00ff);/* DA EFECTO ROJO NEGRO*/
 }
 
 /* Login & Register Pages*/
@@ -234,7 +235,7 @@ hr{
 
 
 .contenedor1{
-    background-color:rgb(230, 129, 52);  
+    background-color:rgb(201, 246, 198);  
     border:solid 1px;
     margin-right: 60px;
     margin-left: 60px;
@@ -256,7 +257,7 @@ table{
 }
 thead{
     
-    background-color:rgb(174, 65, 6);
+    background-color:rgb(6, 174, 31);
     color:#ffffff;
 }
 tbody{
@@ -278,8 +279,10 @@ background-color: rgb(157, 172, 163);
     float: right;
     margin-top:5px ;
 }
+
+/*Barra de barra*/
 nav{
-    background-color: #3f2703;
+    background-color: #45c1a4;
     padding: 15px;
     text-align: center;
 }
@@ -394,28 +397,28 @@ input.insertar2{
     color:#ffffff;
 }
 
-
+/*Botones*/
 a{
     text-decoration: none;
-    background-color: rgb(94, 59, 27);
+    background-color: rgb(53, 47, 175);
     color: rgb(255, 255, 255);
-    padding: 5px 15px;
+    padding: 10px 15px;
     border-radius:  10px;
 }
 
 .figureindex{
     text-decoration: none;
-    background-color: rgb(94, 59, 27);
+    background-color: rgb(255, 255, 255);
     color: rgb(255, 255, 255);
     padding: 5px 15px;
     border-radius:  10px;
 }
 
-
+/*Color de caja de fonde de imagen*/
 .index{
     text-decoration: none;
-    background-color: rgb(94, 59, 27);
-    color: rgb(255, 255, 255);
-    padding: 15px 10px;
-    border-radius:  0px;
+    background: linear-gradient( #c2e2ca, #b5d270, #36a1d7);
+   
+    padding: 5px 10px;
+    border-radius:  5px;
 }
